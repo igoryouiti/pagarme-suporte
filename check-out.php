@@ -9,6 +9,9 @@
     <script src="main.js"></script>
 </head>
 <body>
-    
+    <div><input type="text" name="card-number">Digite o número do cartão</div>
+    <div><input type="text" name="card-cvv">Digite o cvv do cartão</div>
+    <div><input type="text" name="card-validade">Digite a validade do cartão</div>
+    <div><input type="submit" name="btn-submit" value="comprar"></div>
 </body>
 </html>

@@ -11,7 +11,7 @@
     <body>
         <h1>Desafio Suporte</h1>
         <div><a href="configuracao.php">Configuracao</div>
-        <div><a href="check-out.php">Check-out</div>
+        <div><a href="carrinho.php">carrinho</div>
     </body>
 </html>
 
