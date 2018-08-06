@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+
+<h2>Desafio Suporte</h2>
+
+<div class="row">
+  <div class="col-75">
+    <div class="container">
+      <form action="controle.php" method = "POST">
+      
+        <div class="row">
+          <div class="col-50">
+            
+            <h3>Pagamento</h3>
+            
+            <label for="cname">Name no cartao</label>
+            <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+            <label for="ccnum">Numero cartao</label>
+            <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+            <label for="expmonth">Mes da validade</label>
+            <input type="text" id="expmonth" name="expmonth" placeholder="09">
+            <div class="row">
+              <div class="col-50">
+                <label for="expyear">Ano da validade</label>
+                <input type="text" id="expyear" name="expyear" placeholder="19">
+              </div>
+              <div class="col-50">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="352">
+              </div>
+            </div>
+          </div>          
+        </div>
+        <input type="submit" value="Compra" class="btn">
+      
+    </div>
+  </div>
+  <div class="col-25">
+    <div class="container">
+      <h4>Carrinho <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>1</b></span></h4>
+      <p><img class="image" src="image/Pikachu-Pool.jpg"> <span class="price">$120</span></p>
+      <hr>
+      <p>Total <span class="price" style="color:black"><b>$120</b></span></p>
+    </div>
+  </div>
+</div>
+</form>
+</body>
+</html>
