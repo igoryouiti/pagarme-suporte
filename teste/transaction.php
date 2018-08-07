@@ -7,6 +7,8 @@
 
     $api_key = (API_KEY);
 
+    $idRecebedor1 = (RECEBEDOR_01);
+    $idRecebedor2 = (RECEBEDOR_02);
 
     $pagarMe = new \PagarMe\Sdk\PagarMe($api_key);
     $amount = 1000;
@@ -41,10 +43,11 @@
     $card = $pagarMe->card()->create(
         '4242424242424242',
         'JOHN DOVE Split',
-        '0722'
+        '0722',
+        '411'
     );
     /** @var $recipient \PagarMe\Sdk\Recipient\Recipient */
-    $recipient = $pagarMe->recipient()->get('re_cjjynvfvr00jcvw6ezmpcjsk1');
+    $recipient = $pagarMe->recipient()->get('idRecebedor1');
     
     /** @var $splitRule PagarMe\Sdk\SplitRule\SplitRule */
     $splitRule = $pagarMe->splitRule()->percentageRule(
@@ -53,7 +56,7 @@
         true,
         true
     );
-    $recipient2 = $pagarMe->recipient()->get('re_cjjynuzf400javw6e70te2d77');
+    $recipient2 = $pagarMe->recipient()->get('idRecebedor2');
 
      /** @var $splitRule PagarMe\Sdk\SplitRule\SplitRule */
      $splitRule2 = $pagarMe->splitRule()->percentageRule(
@@ -67,7 +70,7 @@
     $splitRules[0] = $splitRule;
     $splitRules[1] = $splitRule2;
 
-    /*  
+/*
     //TRANSAÇÃO DE CARTÃO DE CRÉDITO
       $transaction = $pagarMe->transaction()->creditCardTransaction(
         $amount,
@@ -80,11 +83,14 @@
         ["split_rules" => $splitRules],
         [ 'async' => false ]
     );
-    */
+*/
     date_default_timezone_set('America/Sao_Paulo');
 
     $balance = $pagarMe->balance()->get();
-    var_dump($balance);
 
 
+    $saldo = $balance->getAvailable()->amount;
+    $aReceber = $balance->getWaitingFunds()->amount;
+
+    header("Location: saldo-teste.php?saldo=$saldo&areceber=$aReceber");
 ?>

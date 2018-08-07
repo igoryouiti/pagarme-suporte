@@ -3,6 +3,8 @@
     require 'config.php';
 
     $api_key = (API_KEY);
+    $idRecebedor1 = (RECEBEDOR_01);
+    $idRecebedor2 = (RECEBEDOR_02);
 
     $cardNumber = $_POST['cardnumber'];
     $cardHolderName = $_POST['cardname'];
@@ -42,14 +44,15 @@
         'sex' => 'M'
     ]);
 
+
     $card = $pagarMe->card()->create(
-        $cardHolderNumber,
-        $cardName,
+        $cardNumber,
+        $cardHolderName,
         $cardExpirationDate,
         $cardCvv
     );
 
-    $recipient = $pagarMe->recipient()->get('re_cjjynvfvr00jcvw6ezmpcjsk1');
+    $recipient = $pagarMe->recipient()->get($idRecebedor1);
 
     $splitRule = $pagarMe->splitRule()->percentageRule(
         15,
@@ -58,10 +61,10 @@
         true
     );
 
-    $recipient2 = $pagarMe->recipient()->get('re_cjjynuzf400javw6e70te2d77');
+    $recipient2 = $pagarMe->recipient()->get($idRecebedor2);
 
     $splitRule2 = $pagarMe->splitRule()->percentageRule(
-        70,
+        85,
         $recipient2,
         false,
         false
@@ -70,7 +73,8 @@
     $splitRules = new PagarMe\Sdk\SplitRule\SplitRuleCollection($split);
     $splitRules[0] = $splitRule;
     $splitRules[1] = $splitRule2;
-    
+ 
+/*
     $transaction = $pagarMe->transaction()->creditCardTransaction(
         $amount,
         $card,
@@ -82,10 +86,14 @@
         ["split_rules" => $splitRules],
         [ 'async' => false ]
     );
-
+*/
     date_default_timezone_set('America/Sao_Paulo');
 
     $balance = $pagarMe->balance()->get();
 
-    
+    $saldo = $balance->getAvailable()->amount;
+    $aReceber = $balance->getWaitingFunds()->amount;
+
+    header("Location: saldo.php?saldo=$saldo&areceber=$aReceber");
+  
 ?>

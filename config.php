@@ -1,6 +1,8 @@
 <?php 
-    define ('API_KEY', "your_api_key");
-    define ('ENC_KEY', "your_encription_key");
+    define ('API_KEY', "SUA_CHAVE_DE_API_TESTE");
+    define ('ENC_KEY', "SUA_CHAVE_DE_CRIPTOGRAFIA_TESTE");
 
+    define ('RECEBEDOR_01', "ID_PRIMEIRO_RECEBEDOR");
+    define ('RECEBEDOR_02', "ID_SEGUNDO_RECEBEDOR");
 
 ?>

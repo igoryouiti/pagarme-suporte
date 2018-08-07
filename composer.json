@@ -1,5 +1,6 @@
 {
     "require": {
-        "pagarme/pagarme-php": "^3.7"
+        "pagarme/pagarme-php": "^3.7",
+        "php": "5.6"
     }
 }
