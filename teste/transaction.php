@@ -2,15 +2,13 @@
     require_once '../vendor/autoload.php';
     require '../config.php';
 
-   
-
-
     $api_key = (API_KEY);
 
     $idRecebedor1 = (RECEBEDOR_01);
     $idRecebedor2 = (RECEBEDOR_02);
 
     $pagarMe = new \PagarMe\Sdk\PagarMe($api_key);
+    
     $amount = 1000;
     $installments = 1;
     $capture = true;
@@ -46,8 +44,9 @@
         '0722',
         '411'
     );
+    
     /** @var $recipient \PagarMe\Sdk\Recipient\Recipient */
-    $recipient = $pagarMe->recipient()->get('idRecebedor1');
+    $recipient = $pagarMe->recipient()->get($idRecebedor1);
     
     /** @var $splitRule PagarMe\Sdk\SplitRule\SplitRule */
     $splitRule = $pagarMe->splitRule()->percentageRule(
@@ -56,7 +55,7 @@
         true,
         true
     );
-    $recipient2 = $pagarMe->recipient()->get('idRecebedor2');
+    $recipient2 = $pagarMe->recipient()->get($idRecebedor2);
 
      /** @var $splitRule PagarMe\Sdk\SplitRule\SplitRule */
      $splitRule2 = $pagarMe->splitRule()->percentageRule(
@@ -66,11 +65,10 @@
         false
     );
 
-    $splitRules = new PagarMe\Sdk\SplitRule\SplitRuleCollection($split);
+    $splitRules = new PagarMe\Sdk\SplitRule\SplitRuleCollection();
     $splitRules[0] = $splitRule;
     $splitRules[1] = $splitRule2;
-
-/*
+ /*   
     //TRANSAÇÃO DE CARTÃO DE CRÉDITO
       $transaction = $pagarMe->transaction()->creditCardTransaction(
         $amount,
@@ -83,6 +81,7 @@
         ["split_rules" => $splitRules],
         [ 'async' => false ]
     );
+
 */
     date_default_timezone_set('America/Sao_Paulo');
 
@@ -92,5 +91,5 @@
     $saldo = $balance->getAvailable()->amount;
     $aReceber = $balance->getWaitingFunds()->amount;
 
-    header("Location: saldo-teste.php?saldo=$saldo&areceber=$aReceber");
+   // header("Location: saldo-teste.php?saldo=$saldo&areceber=$aReceber");
 ?>
