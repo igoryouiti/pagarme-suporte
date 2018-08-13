@@ -1,29 +1,25 @@
 <?php
 
-// nao utilizado, nao consegui usar
-
     class Split{
         
         private $idRecebedor1;
         private $idRecebedor2;
         private $api_key;
 
-        public function __construct($idRecebedor1, $idRecebedor2, $api_key){
+        public function __construct($idRecebedor1, $idRecebedor2, Pagarme $api_key){
             $this->idRecebedor1 = $idRecebedor1;
             $this->idRecebedor2 = $idRecebedor2;
-            $this->api_key = $api_key;
+            //$this->api_key = $api_key;
 
         }
 
         public function setSplitRules(){
 
-        //    require '../vendor/autoload.php';
+            require '../vendor/autoload.php';
 
-            $pagarMe = new \PagarMe\Sdk\PagarMe($api_key);
-
-            var_dump($pagarMe);
+            $pagarMe = new \PagarMe\Sdk\PagarMe($this->api_key);
   
-            $recipient = $pagarMe->recipient()->get($idRecebedor1);
+            $recipient = $pagarMe->recipient()->get($this->idRecebedor1);
 
             $splitRule = $pagarMe->splitRule()->percentageRule(
                 15,
@@ -32,7 +28,7 @@
                 true
             );
         
-            $recipient2 = $pagarMe->recipient()->get($idRecebedor2);
+            $recipient2 = $pagarMe->recipient()->get($this->idRecebedor2);
         
             $splitRule2 = $pagarMe->splitRule()->percentageRule(
                 85,
@@ -51,6 +47,10 @@
         
     }
 
+    $split = new Split('re_cjjynvfvr00jcvw6ezmpcjsk1', 're_cjjynuzf400javw6e70te2d77', 'ak_test_9SVspN8kVDUItZUFo91wzxSbuQxHPf');
+    
+    $aua = $split->setSplitRules();
 
+    var_dump($aua);    
 
 ?>

@@ -3,6 +3,8 @@
     require_once 'vendor/autoload.php';
     require 'config.php';
     require 'app/comprador.php';
+    require 'app/regra-split.php';
+    require 'app/dados-transacao.php';
 
 
     $api_key = (API_KEY);
@@ -19,11 +21,7 @@
 
     $pagarMe = new \PagarMe\Sdk\PagarMe($api_key);
 
-    $amount = 12000;
-    $installments = 1;
-    $capture = true;
-    $postbackUrl = 'http://requestb.in/pkt7pgpk';
-    $metadata = ['nomeProduto' => 'PikachuPool'];
+    $dadosTransacao = new DadosTransacao();
 
     $customer = new Comprador();
 
@@ -34,46 +32,46 @@
         $cardCvv
     );
 
-    $recipient = $pagarMe->recipient()->get($idRecebedor1);
-
-    $splitRule = $pagarMe->splitRule()->percentageRule(
-        15,
-        $recipient,
-        true,
-        true
-    );
-
-    $recipient2 = $pagarMe->recipient()->get($idRecebedor2);
-
-    $splitRule2 = $pagarMe->splitRule()->percentageRule(
-        85,
-        $recipient2,
-        false,
-        false
-    );    
-
-    $splitRules = new PagarMe\Sdk\SplitRule\SplitRuleCollection($split);
-    $splitRules[0] = $splitRule;
-    $splitRules[1] = $splitRule2;
-
+    $regraSplit = new RegraSplit($idRecebedor1, $idRecebedor2, $pagarMe);
+    $splitRules = $regraSplit->setSplitRules();
+/*
     $transaction = $pagarMe->transaction()->creditCardTransaction(
-        $amount,
+        $dadosTransacao->getAmount(),
         $card,
         $customer,
-        $installments,
-        $capture,
-        $postbackUrl,
-        $metadata,
+        $dadosTransacao->getInstallments(),
+        $dadosTransacao->getCapture(),
+        $dadosTransacao->getPostbackUrl(),
+        $dadosTransacao->getMetadata(),
         ["split_rules" => $splitRules],
-        [ 'async' => false ]
+        [ 'async' => $dadosTransacao->getAsync()]
     );
+*/
+    session_start();
 
     date_default_timezone_set('America/Sao_Paulo');
 
     $balance = $pagarMe->balance()->get();
-
     $saldo = $balance->getAvailable()->amount;
     $aReceber = $balance->getWaitingFunds()->amount;
 
-    header("Location: saldo.php?saldo=$saldo&areceber=$aReceber");
+    $recipient1 = $pagarMe->recipient()->get($idRecebedor1);
+    $balance1 = $pagarMe->recipient()->balance($recipient1);
+
+    $recipient2 = $pagarMe->recipient()->get($idRecebedor2);
+    $balance2 = $pagarMe->recipient()->balance($recipient2);
+
+    $_SESSION['saldo'] = $saldo; 
+    $_SESSION['aReceber'] = $aReceber;
+
+    $_SESSION['saldoReceberdor1'] = $balance1->getAvailable()->amount; 
+    $_SESSION['aReceberRecebedor1'] = $balance1->getWaitingFunds()->amount; 
+
+    $_SESSION['saldoRecebedor2'] = $balance2->getAvailable()->amount; 
+    $_SESSION['aReceberRecebedor2'] = $balance2->getWaitingFunds()->amount; 
+
+
+
+    //header("Location: saldo.php?saldo=$saldo&areceber=$aReceber");
+    header("Location: saldo.php?");
 ?>
