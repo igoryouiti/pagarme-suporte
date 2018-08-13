@@ -4,6 +4,8 @@ Desafio Suporte
 # Instruções:
 
   - Após clonar o repositório, utilizar o composer: 'composer require 'pagarme/pagarme-php''
+  
+   - Utilizar API pagar.me versão v2017-07-17
 
  - No arquivo 'config.php' colocar a sua chave de API e o 'Id' de dois recebedores diferentes, disponíveis na dashboard Pagar.me. Caso não possua recebedores, crie elas =)
   Salvar o arquivo.
