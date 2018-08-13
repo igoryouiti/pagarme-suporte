@@ -34,7 +34,7 @@
 
     $regraSplit = new RegraSplit($idRecebedor1, $idRecebedor2, $pagarMe);
     $splitRules = $regraSplit->setSplitRules();
-/*
+
     $transaction = $pagarMe->transaction()->creditCardTransaction(
         $dadosTransacao->getAmount(),
         $card,
@@ -46,7 +46,7 @@
         ["split_rules" => $splitRules],
         [ 'async' => $dadosTransacao->getAsync()]
     );
-*/
+
     session_start();
 
     date_default_timezone_set('America/Sao_Paulo');
@@ -70,8 +70,5 @@
     $_SESSION['saldoRecebedor2'] = $balance2->getAvailable()->amount; 
     $_SESSION['aReceberRecebedor2'] = $balance2->getWaitingFunds()->amount; 
 
-
-
-    //header("Location: saldo.php?saldo=$saldo&areceber=$aReceber");
     header("Location: saldo.php?");
 ?>
